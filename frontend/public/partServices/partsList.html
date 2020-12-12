@@ -71,7 +71,7 @@
 
       <form>
         <div class="form-row">
-          <div class="col-sm">
+          <div class="col-sm-3">
             <label for="formPartToEditName">Current Name of Part To Edit</label>
             <select
               id="formPartToEditName"
@@ -82,7 +82,7 @@
               <option value="2">Part 2</option>
             </select>
           </div>
-          <div class="col-sm">
+          <div class="col-sm-3">
             <label for="c">Updated Part Name</label>
             <input
               id="formUpdatedPartName"
@@ -92,7 +92,7 @@
               placeholder="Updated Part name"
             />
           </div>
-          <div class="col-sm">
+          <div class="col-sm-2">
             <label for="formUpdatedPartUnit">Updated Part Unit</label>
             <input
               id="formUpdatedPartUnit"
@@ -102,7 +102,7 @@
               placeholder="Updated Part unit"
             />
           </div>
-          <div class="col-sm">
+          <div class="col-sm-2">
             <button
               style="margin-top: 32px;"
               id = "btnCommitUpdate"
@@ -113,7 +113,7 @@
               COMMIT UPDATE
             </button>
           </div>
-          <div class="col-sm">
+          <div class="col-sm-2">
             <button
               style="margin-top: 32px;"
               id = "btnDeleteSelection"
@@ -121,7 +121,7 @@
               class="btn btn-primary"
               onclick="doDeletePart(event)"
             >
-              DELETE SELECTED PART NAME
+              DELETE PART
             </button>
           </div>
         </div>
