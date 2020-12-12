@@ -1,0 +1,6 @@
+debug.log
+launch.json
+.vscode/
+*.code-workspace
+backend/node_modules/*
+frontend/node_modules/*
