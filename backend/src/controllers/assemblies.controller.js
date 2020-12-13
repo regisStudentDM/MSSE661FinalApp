@@ -1,0 +1,141 @@
+const mysql = require('mysql');
+const connection = require('../db-config');
+const {
+  GET_ALL_ASSEMBLY_ROWS,
+  INSERT_ASSEMBLY_ROW,
+  UPDATE_ASSEMBLY_ROW,
+  DELETE_ASSEMBLY_ROW_BY_USER_ID_ASSEMBLY_NAME_AND_ASSEMBLY_PART_NAME,
+} = require('../queries/assemblies.queries');
+const query = require('../utils/query');
+const { serverError } = require('../utils/handlers');
+
+/**
+ * CRUD - Create, Read, Update, Delete
+ * GET - Read
+ * POST - Create
+ * PUT - Update
+ * DELETE - Delete
+ */
+
+// http://localhost:3000/assemblies
+exports.getAllAssemblyRows = async (req, res) => {
+    
+  const con = await connection().catch((err) => {
+    throw err;
+  });
+
+  const assemblyRows = await query(con, GET_ALL_ASSEMBLY_ROWS(req.user.id)).catch(
+    serverError(res)
+  );
+
+  // [] === true, 0 === false
+  if (!assemblyRows.length) {
+    res.status(200).json({ msg: 'No assemblies available for this user.' });
+    return;
+  }
+  else{
+    res.json(assemblyRows);
+    return;
+  }
+};
+
+// http://localhost:3000/assemblies
+exports.insertAssemblyRow = async (req, res) => {
+  // verify valid token
+  const user = req.user; // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }
+
+  // take result of middleware check
+  if (user.id) {
+    // establish connection
+    const con = await connection().catch((err) => {
+      throw err;
+    });
+
+    const assemblyName = mysql.escape(req.body.assembly_name);
+    const assemblyPartName = mysql.escape(req.body.assembly_part_name);
+    const result = await query(con, INSERT_ASSEMBLY_ROW(user.id, assemblyName, assemblyPartName, req.body.assembly_part_quantity)).catch(
+      serverError(res)
+    );
+
+    if(result){
+      if (result.affectedRows !== 1) {
+        res.status(500).json({ msg: `Unable to add assembly: ${req.body.assembly_name}` });
+        return;
+      }
+      else{
+        res.status(200).json({ msg: 'Added assembly successfully!' });
+        return;
+      }    
+    }
+  }
+  else{
+    res.status(500).json({ msg: `Do not have permission to add this assembly: ${req.body.assembly_name}` });
+    return;
+  }
+
+};
+
+// http://localhost:3000/assemblies/updateAssemblyByPrimaryKey
+exports.updateAssemblyRowByUserIDAssemblyNameAssemblyPartName = async (req, res) => {
+    // establish connection
+    const con = await connection().catch((err) => {
+      throw err;
+    });
+
+    const oldAssemblyName = mysql.escape(req.body.old_assembly_name);
+    const oldAssemblyPartName = mysql.escape(req.body.old_assembly_part_name);
+
+    const newAssemblyName = mysql.escape(req.body.new_assembly_name);
+    const newAssemblyPartQuantity = req.body.new_assembly_part_quantity;
+  
+    const result = await query(
+      con,
+      UPDATE_ASSEMBLY_ROW(req.user.id, oldAssemblyName, oldAssemblyPartName, newAssemblyName, newAssemblyPartQuantity)
+    ).catch(serverError(res));
+  
+    if(result){
+      if (result.affectedRows !== 1) {
+        res.status(500).json({ msg: `Unable to update assembly row: ${req.body.assembly_name}` });
+        return;
+      } else{
+        res.status(200).json({ msg: 'Updated assembly row successfully.' });
+        return;
+      }
+    } else{
+        res.status(500).json({ msg: `Unable to update assembly row: ${req.body.assembly_name}` });
+      return;
+    }
+  
+  };
+
+
+// http://localhost:3000/assemblies/deleteAssemblyByPrimaryKey
+exports.deleteAssemblyRowByUserIDAssemblyNameAssemblyPartName = async (req, res) => {
+  // establish connection
+  const con = await connection().catch((err) => {
+    throw err;
+  });
+
+  const assemblyName = mysql.escape(req.body.assembly_name);
+  const assemblyPartName = mysql.escape(req.body.assembly_part_name);
+
+  // query delete part
+  const result = await query(
+    con,
+    DELETE_ASSEMBLY_ROW_BY_USER_ID_ASSEMBLY_NAME_AND_ASSEMBLY_PART_NAME(req.user.id, assemblyName, assemblyPartName)
+  ).catch(serverError(res));
+
+  if(result){
+    if (result.affectedRows !== 1) {
+      res.status(500).json({ msg: `Unable to delete assembly row: ${req.body.assembly_name}` });
+      return;
+    } else{
+      res.status(200).json({ msg: 'Deleted assembly row successfully.' });
+      return;
+    }
+  } else{
+    res.status(500).json({ msg: `Unable to delete assembly row: ${req.body.assembly_name}` });
+    return;
+  }
+
+};

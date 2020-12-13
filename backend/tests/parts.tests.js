@@ -93,7 +93,7 @@ describe('Parts API Service', function () {
 
   it.skip('should POST a single part for a given user', function (done) {
         
-    request_user_id = 1;
+    request_user_id = 3;
 
     const token = generateAccessToken(request_user_id, {
       // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }
@@ -102,8 +102,8 @@ describe('Parts API Service', function () {
     
     
     const newPart = {
-      part_name: "part 1 part for user 1",
-      part_unit: "feet",
+      part_name: "part 3 part for user 3",
+      part_unit: "part 3 unit",
     };
     const expected = { msg: 'Added part successfully!' };
 

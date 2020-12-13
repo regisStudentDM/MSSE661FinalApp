@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const { CREATE_USERS_TABLE } = require('./queries/user.queries');
 const { CREATE_PARTS_TABLE } = require('./queries/parts.queries');
+const { CREATE_ASSEMBLIES_TABLE } = require('./queries/assemblies.queries');
 const query = require('./utils/query');
 
 // Get the Host from Environment or use default
@@ -13,7 +14,7 @@ const user = process.env.DB_USER || 'root';
 const password = process.env.DB_PASS || 'password';
 
 // Get the Database from Environment or use default
-const database = process.env.DB_DATABASE || 'tododb';
+const database = process.env.DB_DATABASE || 'materialdb';
 
 const connection = async () =>
   new Promise((resolve, reject) => {
@@ -52,8 +53,14 @@ const connection = async () =>
     }
   );
 
+  const assembliesTableCreated = await query(_con, CREATE_ASSEMBLIES_TABLE).catch(
+    (err) => {
+      console.log(err);
+    }
+  );
+
   //Coerce into a boolean
-  if (!!userTableCreated && !!partsTableCreated) {
+  if (!!userTableCreated && !!partsTableCreated & !!assembliesTableCreated) {
     console.log('Tables Created!');
   }
 })();
