@@ -2,8 +2,8 @@ const partsService = new PartsService();
 const assembliesService = new AssembliesService();
 const assemblyListBuilder = new AssemblyListBuilder(assembliesService, partsService);
 
-const testAssemblyName = 'testAssemblyName2';
-const testAssemblyPartName = 'part 2 part for user 1';
+const testAssemblyName = 'testAssemblyName1';
+const testAssemblyPartName = 'potatoes';
 const testAssemblyPartQuantity = 1;
 
 const testUpdatedAssemblyName = 'testUpdatedAssemblyName1';
