@@ -13,7 +13,7 @@
     />
     <title>Your Assemblies</title>
   </head>
-  <body>
+  <body onload="doUpdatPartsList(event)">
     <header>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"></a>
@@ -40,7 +40,7 @@
         <form>
           <div class="form-row">
             <div class="col-md-3">
-              <label class="sr-only" for="formInputAssemblyName">Assembly Name</label>
+              <label for="formInputAssemblyName">New Assembly Name</label>
               <input
                 id="formInputAssemblyName"
                 class="form-control"
@@ -49,18 +49,19 @@
                 placeholder="Assembly name"
               />
             </div>
-            <div class="col-md-3">
-              <label class="sr-only" for="formInputPartName">Part Name</label>
-              <input
+            <div class="col-sm-3">
+              <label for="formInputPartName">New Assembly Part Name</label>
+              <select
                 id="formInputPartName"
-                class="form-control"
-                type="text"
-                name="part-name"
-                placeholder="Part name"
-              />
+                class="custom-select mr-sm-2"
+                name="input-assembly-part-name"
+              >
+                <option value="1" selected>Part 1</option>
+                <option value="2">Part 2</option>
+              </select>
             </div>
             <div class="col-md-3">
-              <label class="sr-only" for="formInputPartQuantity">Part Quantity</label>
+              <label for="formInputPartQuantity">New Assembly Part Quantity</label>
               <input
                 id="formInputPartQuantity"
                 class="form-control"
@@ -71,8 +72,10 @@
             </div>
             <div class="col-md-3">
               <button
+                style="margin-top: 32px;"
                 type="submit"
                 class="btn btn-primary"
+                onclick="doAddAssemblyRow(event)"
               >
                 ADD ASSEMBLY
               </button>
@@ -89,7 +92,7 @@
               id="formAssemblyToEditName"
               class="custom-select mr-sm-2"
               name="current-assembly-name"
-              onchange="doUpdateAssemblyPartsList()"
+              onchange="doUpdateAssemblyPartsList(event)"
             >
               <option value="1" selected>Assembly 1</option>
               <option value="2">Assembly 2</option>
@@ -190,12 +193,14 @@
       </div>
     </footer>
 
+
     <script src="../apiServices/api.config.js"></script>
     <script src="../apiServices/simple-storage.js"></script>
     <script src="../apiServices/service-helpers.js"></script>
     <script src="../authServices/auth.service.js"></script>
     <script src="../authServices/auth.js"></script>
     <script src="../authServices/auth.guard.js"></script>
+    <script src="../partServices/parts-api.service.js"></script>
     <script src="./assemblies-api.service.js"></script>
     <script src="./assembly-list-builder.service.js"></script>
     <script src="./assembly-list-item-crud.js"></script>

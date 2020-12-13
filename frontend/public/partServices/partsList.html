@@ -39,8 +39,8 @@
       <div class="part-form">
         <form>
           <div class="form-row">
-            <div class="col-md-6">
-              <label class="sr-only" for="formInputPartName">Part Name</label>
+            <div class="col-md-5">
+              <label for="formInputPartName">New Part Name</label>
               <input
                 id="formInputPartName"
                 class="form-control"
@@ -50,7 +50,7 @@
               />
             </div>
             <div class="col-md-3">
-              <label class="sr-only" for="formInputPartUnit">Part Unit</label>
+              <label for="formInputPartUnit">New Part Unit</label>
               <input
                 id="formInputPartUnit"
                 class="form-control"
@@ -59,13 +59,14 @@
                 placeholder="Part unit"
               />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <button
+                style="margin-top: 32px;"
                 type="submit"
                 class="btn btn-primary"
                 onclick="doAddPart(event)"
               >
-                ADD
+                ADD PART
               </button>
             </div>
           </div>

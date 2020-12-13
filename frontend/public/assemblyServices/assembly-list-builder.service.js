@@ -7,14 +7,41 @@
 class AssemblyListBuilder {
   assemblyRows = [];
   assembliesService;
+  partsService;
 
-  constructor(assembliesService) {
+  constructor(assembliesService, partsService) {
     this.assembliesService = assembliesService;
+    this.partsService = partsService;
   }
 
   init() {
     this.render();
   }
+
+  _updatePartsListSelections = async () => {
+    try {
+      const parts = await this.partsService.getParts();
+
+      for (const option of [...document.querySelector('#formInputPartName').options]) {
+        option.remove();
+      }
+  
+      var myNewAssemblyPartsList = document.getElementById("formInputPartName");
+      var o;
+  
+      for (let index = 0; index < parts.length; index++) {
+        o = document.createElement("option");
+        o.value = parts[index].part_name;
+        o.text = parts[index].part_name;
+        myNewAssemblyPartsList.appendChild(o);
+      }
+  
+      myNewAssemblyPartsList.selectedIndex = 0;
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   render = async () => {
     const assemblyRows = await this.assembliesService.getAssemblyRows();
