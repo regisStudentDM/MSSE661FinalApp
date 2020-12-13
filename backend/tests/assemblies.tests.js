@@ -67,19 +67,19 @@ describe('Assemblies API Service', function () {
       // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }
       expiresIn: 86400,
     });
-    
-    const expected = { msg: 'Deleted assembly row successfully.' };
 
-    const deletRowRequestBody = {
-        assembly_name: "assembly 1, user 1",
+    const deleteAssemblyRow = {
+        assembly_name: "test assembly 1",
         assembly_part_name: "part 1 part for user 1",
       };
 
+    const expected = { msg: 'Deleted assembly row successfully.' };
+
     chai
       .request('http://localhost:3000')
-      .delete('/api/assemblies')
+      .post('/api/assemblies/deleteAssemblyByPrimaryKey')
       .set('Authorization', `Bearer ${token}`)
-      .send(deletRowRequestBody)
+      .send(deleteAssemblyRow)
       .end(function (err, resp) {
         expect(resp.status).to.be.eql(200);
         expect(resp.body).to.be.eql(expected);

@@ -18,7 +18,7 @@ class AssemblyListBuilder {
     this.render();
   }
 
-  addAssemblyByObjectSpecification = async (assemblyRowRequestBody) => {
+  addAssemblyRowByObjectSpecification = async (assemblyRowRequestBody) => {
     try {
       const resp = await this.assembliesService.addAssemblyRow(assemblyRowRequestBody);
       
@@ -70,10 +70,64 @@ class AssemblyListBuilder {
       return;
     }
 
-    const resp = await this.addAssemblyByObjectSpecification({ assembly_name, assembly_part_name, assembly_part_quantity});
+    const resp = await this.addAssemblyRowByObjectSpecification({ assembly_name, assembly_part_name, assembly_part_quantity});
 
     assemblyNameInput.value = "";
     assemblyPartQuantityInput.value = "";
+    assemblyPartNameSelect.selectedIndex = 0;
+  };
+
+  deleteAssemblyRowByObjectSpecification = async (assemblyRowRequestBody) => {
+    try {
+      
+      const assemblyId = await this.getAssemblyIDBy
+      
+      const resp = await this.assembliesService.deleteAssemblyRow(assemblyRowRequestBody);
+      
+      if (resp.msg) {
+        if(resp.msg == 'Deleted assembly row successfully.'){
+          this.render();
+          return resp;        
+        }
+        else{
+          alert(resp.msg);
+          return;
+        }
+      } else {
+        alert('Unable to delete assembly row. Please try again later.');
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+      alert('Unable to delete assembly row. Please try again later.');
+      return;
+    }  
+  }
+
+  _deleteAssemblyRowByUserFormInputs = async () => {
+    const assemblyNameToDeleteSelect = document.getElementById('formAssemblyToEditName');
+    const assemblyNameToDeleteSelectOptions = assemblyNameToDeleteSelect.options;
+    const assemblyNameToDeleteSelectedIndex = assemblyNameToDeleteSelectOptions.selectedIndex;
+    const assembly_name = assemblyNameToDeleteSelectOptions[assemblyNameToDeleteSelectedIndex].text;
+
+    const assemblyPartNameSelect = document.getElementById('formAssemblyPartName');
+    const assemblyPartNameSelectOptions = assemblyPartNameSelect.options;
+    const assemblyPartNameSelectedIndex = assemblyPartNameSelectOptions.selectedIndex;
+    const assembly_part_name = assemblyPartNameSelectOptions[assemblyPartNameSelectedIndex].text;
+	
+    if (!assembly_name) {
+      alert('Please enter a part name.');
+      return;
+    }
+	
+    if (!assembly_part_name) {
+      alert('Please enter a part unit.');
+      return;
+    }
+
+    const resp = await this.deleteAssemblyRowByObjectSpecification({ assembly_name, assembly_part_name});
+
+    assemblyNameToDeleteSelect.selectedIndex = 0;
     assemblyPartNameSelect.selectedIndex = 0;
   };
 

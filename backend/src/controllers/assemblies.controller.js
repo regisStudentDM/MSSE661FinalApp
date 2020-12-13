@@ -96,14 +96,13 @@ exports.deleteAssemblyRowByUserIDAssemblyNameAssemblyPartName = async (req, res)
     if (result.affectedRows !== 1) {
       res.status(500).json({ msg: `Unable to delete assembly row: ${req.body.assembly_name}` });
       return;
-    }
-    else{
+    } else{
       res.status(200).json({ msg: 'Deleted assembly row successfully.' });
       return;
     }
   } else{
     res.status(500).json({ msg: `Unable to delete assembly row: ${req.body.assembly_name}` });
     return;
-    }
+  }
 
 };

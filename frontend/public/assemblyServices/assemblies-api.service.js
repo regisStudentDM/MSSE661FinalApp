@@ -5,6 +5,7 @@ class AssembliesService{
 
   addAssemblyRow = (formData) => _post(ASSEMBLIES_API, formData, DEFAULT_OPTIONS_WITH_AUTH);
 
+  deleteAssemblyRow = (formData) => _post(`${ASSEMBLIES_API}/deleteAssemblyByPrimaryKey`, formData, DEFAULT_OPTIONS_WITH_AUTH);
 }
 
 

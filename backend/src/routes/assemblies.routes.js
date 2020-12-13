@@ -20,11 +20,7 @@ assembliesRoutes.get('/', canAccess, getAllAssemblyRows);
 
 assembliesRoutes.post('/', canAccess, insertAssemblyRow);
 
-assembliesRoutes.delete('/', canAccess, deleteAssemblyRowByUserIDAssemblyNameAssemblyPartName);
+assembliesRoutes.post('/deleteAssemblyByPrimaryKey', canAccess, deleteAssemblyRowByUserIDAssemblyNameAssemblyPartName);
 
-
-/**
- * Routes for an assembly by row id. Evalutes to `/assemblies/:assemblyRowId`.
- */
 
 module.exports = assembliesRoutes;

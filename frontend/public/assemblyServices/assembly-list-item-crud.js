@@ -6,9 +6,8 @@ const doAddAssemblyRow = async (e) => {
 
 const doDeleteAssemblyRow = async (e) => {
 
-/*   e.preventDefault();
-  partListBuilder._deletePartByUserFormInputs();
- */
+  e.preventDefault();
+  assemblyListBuilder._deleteAssemblyRowByUserFormInputs();
 };
 
 const doUpdateAssemblyPartsList = async (e) => {
