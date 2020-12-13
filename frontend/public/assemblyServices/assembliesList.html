@@ -11,7 +11,7 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
-    <title>Your Parts</title>
+    <title>Your Assemblies</title>
   </head>
   <body>
     <header>
@@ -23,12 +23,12 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../about.html">About</a>
+          </li>          
+          <li class="nav-item">
+            <a class="nav-link" href="../partServices/partsList.html">Update Parts List</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../authServices/settings.html">Update User Settings</a>
-          </li>          
-          <li class="nav-item">
-            <a class="nav-link" href="../assemblyServices/assembliesList.html">Update Assemblies List</a>
           </li>
         </ul>
         <a id="logout" href="" onclick="doLogout(event)">Logout</a>
@@ -36,10 +36,20 @@
     </header>
 
     <div class="container">
-      <div class="part-form">
+      <div class="assembly-form">
         <form>
           <div class="form-row">
-            <div class="col-md-6">
+            <div class="col-md-3">
+              <label class="sr-only" for="formInputAssemblyName">Assembly Name</label>
+              <input
+                id="formInputAssemblyName"
+                class="form-control"
+                type="text"
+                name="assembly-name"
+                placeholder="Assembly name"
+              />
+            </div>
+            <div class="col-md-3">
               <label class="sr-only" for="formInputPartName">Part Name</label>
               <input
                 id="formInputPartName"
@@ -50,22 +60,21 @@
               />
             </div>
             <div class="col-md-3">
-              <label class="sr-only" for="formInputPartUnit">Part Unit</label>
+              <label class="sr-only" for="formInputPartQuantity">Part Quantity</label>
               <input
-                id="formInputPartUnit"
+                id="formInputPartQuantity"
                 class="form-control"
                 type="text"
-                name="part-unit"
-                placeholder="Part unit"
+                name="part-quantity"
+                placeholder="Part quantity"
               />
             </div>
             <div class="col-md-3">
               <button
                 type="submit"
                 class="btn btn-primary"
-                onclick="doAddPart(event)"
               >
-                ADD
+                ADD ASSEMBLY
               </button>
             </div>
           </div>
@@ -75,66 +84,74 @@
       <form>
         <div class="form-row">
           <div class="col-sm-3">
-            <label for="formPartToEditName">Current Name of Part To Edit</label>
+            <label for="formAssemblyToEditName">Current Name of Assembly To Edit</label>
             <select
-              id="formPartToEditName"
+              id="formAssemblyToEditName"
               class="custom-select mr-sm-2"
-              name="current-part-name"
+              name="current-assembly-name"
             >
-              <option value="1" selected>Part 1</option>
-              <option value="2">Part 2</option>
+              <option value="1" selected>Assembly 1</option>
+              <option value="2">Assembly 2</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="formUpdatedAssemblyName">Updated Assembly Name</label>
+            <input
+              id="formUpdatedAssemblyName"
+              class="form-control"
+              type="text"
+              name="updated-assembly-name"
+              placeholder="Updated Assembly Name"
+            />
+          </div>
+          <div class="col-sm-3">
+            <label for="formAssemblyPartName">Assembly Part Name</label>
+            <select
+              id="formAssemblyPartName"
+              class="custom-select mr-sm-2"
+              name="current-assembly-part-name"
+            >
+              <option value="1" selected>Assembly Part 1</option>
+              <option value="2">Assembly Part 2</option>
             </select>
           </div>
           <div class="col-sm-3">
-            <label for="formUpdatedPartName">Updated Part Name</label>
+            <label for="formUpdatedAssemblyPartQuantity">Updated Assembly Part Quantity</label>
             <input
-              id="formUpdatedPartName"
+              id="formUpdatedAssemblyPartQuantity"
               class="form-control"
               type="text"
-              name="part-name"
-              placeholder="Updated Part name"
+              name="updated-assembly-part-quanity"
+              type="number"
+              value="1"
             />
           </div>
-          <div class="col-sm-2">
-            <label for="formUpdatedPartUnit">Updated Part Unit</label>
-            <input
-              id="formUpdatedPartUnit"
-              class="form-control"
-              type="text"
-              name="part-unit"
-              placeholder="Updated Part unit"
-            />
-          </div>
+        </div>
+        <div class="form-row">
           <div class="col-sm-2">
             <button
               style="margin-top: 32px;"
               id = "btnCommitUpdate"
               type="submit"
               class="btn btn-primary"
-              onclick="doUpdatePart(event)"
             >
               COMMIT UPDATE
             </button>
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-4">
             <button
               style="margin-top: 32px;"
               id = "btnDeleteSelection"
               type="submit"
               class="btn btn-primary"
-              onclick="doDeletePart(event)"
             >
-              DELETE PART
+              DELETE ASSEMBLY
             </button>
-          </div>
+          </div>        
         </div>
       </form>
     </div>
 
-    <!--Below I am using a blank form to produce whitespace between the forms and the table-->
-
-    <!--Could anyone point me to a more elegant solution?-->
-
     <div class="container">
       <form>
         <div class="form-row">
@@ -150,16 +167,19 @@
     <div class="container">
       <form>
         <div class="form-row">
-          <div class="col-lg-9">
-            <label style="font-weight: bold; padding-left: 18px;">Part Name</label>
+          <div class="col-lg-6">
+            <label style="font-weight: bold; padding-left: 18px;">Assembly Name</label>
           </div>
           <div class="col-lg-3">
-            <label style="font-weight: bold; padding-left: 38px;">Part Unit</label>
+            <label style="font-weight: bold; padding-left: 38px;">Part Name</label>
+          </div>
+          <div class="col-lg-3">
+            <label style="font-weight: bold; padding-left: 38px;">Part Quantity</label>
           </div>
       </form>
     </div>
 
-    <div id="parts">Loading...</div>
+    <div id="assemblies">Loading...</div>
 
   </div>
 
@@ -168,15 +188,17 @@
         <p>Author: <a href="https://github.com/regisStudentDM/MSSE661-Class-App">regisStudentDM</a></p>
       </div>
     </footer>
+
     <script src="../apiServices/api.config.js"></script>
     <script src="../apiServices/simple-storage.js"></script>
     <script src="../apiServices/service-helpers.js"></script>
     <script src="../authServices/auth.service.js"></script>
     <script src="../authServices/auth.js"></script>
     <script src="../authServices/auth.guard.js"></script>
-    <script src="./parts-api.service.js"></script>
-    <script src="./part-list-builder.service.js"></script>
-    <script src="./part-list-item-crud.js"></script>
-    <script src="./init-part-list-builder.js"></script>
+    <script src="./assemblies-api.service.js"></script>
+    <script src="./assembly-list-builder.service.js"></script>
+    <script src="./assembly-list-item-crud.js"></script>
+    <script src="./init-assembly-list-builder.js"></script>
+
   </body>
 </html>
