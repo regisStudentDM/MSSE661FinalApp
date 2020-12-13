@@ -56,17 +56,17 @@ class AssemblyListBuilder {
     const assembly_part_quantity = assemblyPartQuantityInput.value;
 
     if (!assembly_name) {
-      alert('Please enter a part name.');
+      alert('Please enter an assembly name.');
       return;
     }
 	
     if (!assembly_part_name) {
-      alert('Please enter a part unit.');
+      alert('Please enter an assembly part name.');
       return;
     }
 
     if (!assembly_part_quantity) {
-      alert('Please enter a part unit.');
+      alert('Please enter a part quantity.');
       return;
     }
 
@@ -75,6 +75,66 @@ class AssemblyListBuilder {
     assemblyNameInput.value = "";
     assemblyPartQuantityInput.value = "";
     assemblyPartNameSelect.selectedIndex = 0;
+  };
+
+  updateAssemblyRowByObjectSpecification = async (assemblyRowRequestBody) => {
+    try {
+      const resp = await this.assembliesService.updateAssemblyRow(assemblyRowRequestBody);
+      
+      if (resp.msg) {
+        if(resp.msg == 'Updated assembly row successfully.'){
+          this.render();
+          return resp;        
+        }
+        else{
+          alert(resp.msg);
+          return;
+        }
+      } else {
+        alert('Unable to update assembly row. Please try again later.');
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+      alert('Unable to update row. Please try again later.');
+      return;
+    }  
+  }
+
+  _updateAssemblyRowByUserFormInputs = async () => {
+
+    const oldAssemblyNameSelect = document.getElementById('formAssemblyToEditName');
+    const oldAssemblyNameSelectOptions = oldAssemblyNameSelect.options;
+    const oldAssemblyNameSelectedIndex = oldAssemblyNameSelectOptions.selectedIndex;
+    const old_assembly_name = oldAssemblyNameSelectOptions[oldAssemblyNameSelectedIndex].text;
+
+    const newAssemblyNameInput = document.getElementById('formUpdatedAssemblyName');
+    const new_assembly_name = newAssemblyNameInput.value;
+
+    const oldAssemblyPartNameSelect = document.getElementById('formAssemblyPartName');
+    const oldAssemblyPartNameSelectOptions = oldAssemblyPartNameSelect.options;
+    const oldAssemblyPartNameSelectedIndex = oldAssemblyPartNameSelectOptions.selectedIndex;
+    const old_assembly_part_name = oldAssemblyPartNameSelectOptions[oldAssemblyPartNameSelectedIndex].text;
+
+    const newAssemblyPartQuantityInput = document.getElementById('formUpdatedAssemblyPartQuantity');
+    const new_assembly_part_quantity = newAssemblyPartQuantityInput.value;
+
+    if (!new_assembly_name) {
+      alert('Please enter a new name for the updated assembly row.');
+      return;
+    }
+	
+    if (!new_assembly_part_quantity) {
+      alert('Please enter a part quantity for the udpated assembly row.');
+      return;
+    }
+
+    const resp = await this.updateAssemblyRowByObjectSpecification({old_assembly_name, old_assembly_part_name, new_assembly_name, new_assembly_part_quantity});
+
+    newAssemblyNameInput.value = "";
+    newAssemblyPartQuantityInput.value = "";
+    oldAssemblyNameSelect.selectedIndex = 0;
+    oldAssemblyPartNameSelect.selectedIndex = 0;
   };
 
   deleteAssemblyRowByObjectSpecification = async (assemblyRowRequestBody) => {

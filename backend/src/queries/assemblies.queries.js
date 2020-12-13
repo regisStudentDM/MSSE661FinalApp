@@ -16,14 +16,11 @@ exports.CREATE_ASSEMBLIES_TABLE = `CREATE TABLE IF NOT EXISTS assemblies(
   
   exports.GET_ALL_ASSEMBLY_ROWS = (userId) => `SELECT * FROM assemblies WHERE user_id = ${userId}`;
 
-/*   exports.GET_ASSEMBLY_ROW_ID_BY_USER_ID_ASSEMBLY_NAME_AND_ASSEMBLY_PART_NAME = (userId, assemblyName, assemblyPartName) =>
-  `SELECT assembly_row_id FROM assemblies WHERE user_id = ${userId} AND assembly_name = ${assemblyName} AND assembly_part_name = ${assemblyPartName}`;
-  
-  exports.GET_ASSEMBLY_ROW_BY_USER_ID_AND_ROW_ID = (userId, assemblyRowId) =>
-    `SELECT * FROM assemblies WHERE user_id = ${userId} AND assembly_row_id = ${assemblyRowId}`;
- */  
   exports.INSERT_ASSEMBLY_ROW = (userId, assemblyName, assemblyPartName, assemblyPartQuantity) =>
     `INSERT INTO assemblies (user_id, assembly_name, assembly_part_name, assembly_part_quantity) VALUES (${userId}, ${assemblyName}, ${assemblyPartName}, ${assemblyPartQuantity})`;
+
+  exports.UPDATE_ASSEMBLY_ROW = (userId, oldAssemblyName, oldAssemblyPartName, newAssemblyName, newAssemblyPartQuantity) =>
+  `UPDATE assemblies SET assembly_name = ${newAssemblyName}, assembly_part_quantity = ${newAssemblyPartQuantity} WHERE user_id = ${userId} AND assembly_name = ${oldAssemblyName} AND assembly_part_name = ${oldAssemblyPartName}`;
   
   exports.DELETE_ASSEMBLY_ROW_BY_USER_ID_ASSEMBLY_NAME_AND_ASSEMBLY_PART_NAME = (userId, assemblyName, assemblyPartName) =>
     `DELETE FROM assemblies WHERE user_id = ${userId} AND assembly_name = ${assemblyName} and assembly_part_name = ${assemblyPartName}`;

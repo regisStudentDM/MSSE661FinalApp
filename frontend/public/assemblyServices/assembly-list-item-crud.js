@@ -1,11 +1,14 @@
 const doAddAssemblyRow = async (e) => {
-
     e.preventDefault();
     assemblyListBuilder._addAssemblyRowByUserFormInputs();
-  };
+};
+
+const doUpdateAssemblyRow = async (e) => {
+  e.preventDefault();
+  assemblyListBuilder._updateAssemblyRowByUserFormInputs();
+};
 
 const doDeleteAssemblyRow = async (e) => {
-
   e.preventDefault();
   assemblyListBuilder._deleteAssemblyRowByUserFormInputs();
 };

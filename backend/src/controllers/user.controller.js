@@ -38,8 +38,6 @@ exports.updateMe = async function (req, res) {
     throw err;
   });
 
-  console.log("REACHED LINE 41");
-
 
   // check for existing user first
   const user = await query(con, GET_ME_BY_USER_ID_WITH_PASSWORD(req.user.id)).catch(
@@ -54,8 +52,6 @@ exports.updateMe = async function (req, res) {
       res.json(500).json({ msg: 'Invalid password!' });
       return;
     });
-
-    console.log("REACHED LINE 60");
 
 
   if (!passwordUnchanged || req.body.username != user[0].username || req.body.email != user[0].email) {

@@ -3,6 +3,7 @@ const {
   getAllAssemblyRows,
   insertAssemblyRow,
   deleteAssemblyRowByUserIDAssemblyNameAssemblyPartName,
+  updateAssemblyRowByUserIDAssemblyNameAssemblyPartName
 } = require('../controllers/assemblies.controller');
 const canAccess = require('../middleware/auth.middleware');
 
@@ -22,5 +23,6 @@ assembliesRoutes.post('/', canAccess, insertAssemblyRow);
 
 assembliesRoutes.post('/deleteAssemblyByPrimaryKey', canAccess, deleteAssemblyRowByUserIDAssemblyNameAssemblyPartName);
 
+assembliesRoutes.put('/updateAssemblyByPrimaryKey', canAccess, updateAssemblyRowByUserIDAssemblyNameAssemblyPartName);
 
 module.exports = assembliesRoutes;

@@ -61,7 +61,36 @@ describe('Assemblies API Service', function () {
       });
   });
 
-  it('should DELETE a single assembly row for a given user', function (done) {
+  it('should update a single assembly row for a given user', function (done) {
+        
+    request_user_id = 1;
+
+    const token = generateAccessToken(request_user_id, {
+      // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }
+      expiresIn: 86400,
+    });
+    
+    const updatedAssemblyRowRequest = {
+        old_assembly_name: "test assembly 1",
+        old_assembly_part_name: "part 3 part for user 1",
+        new_assembly_name: "test update assembly 1",
+        new_assembly_part_quantity: 250
+    };
+    const expected = { msg: 'Updated assembly row successfully.' };
+
+    chai
+      .request('http://localhost:3000')
+      .put('/api/assemblies/updateAssemblyByPrimaryKey')
+      .set('Authorization', `Bearer ${token}`)
+      .send(updatedAssemblyRowRequest)
+      .end(function (err, resp) {
+        expect(resp.status).to.be.eql(200);
+        expect(resp.body).to.be.eql(expected);
+        done();
+      });
+  });
+
+  it.skip('should DELETE a single assembly row for a given user', function (done) {
     request_user_id = 1;
     const token = generateAccessToken(request_user_id, {
       // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }

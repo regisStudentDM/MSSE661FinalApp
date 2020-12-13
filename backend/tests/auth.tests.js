@@ -19,7 +19,6 @@ describe('Auth API service', () => {
       .post('/api/auth/register')
       .send(testUser)
       .end((err, resp) => {
-        console.log(resp.body);
         expect(resp.body).to.eql(expected);
         done();
       });
