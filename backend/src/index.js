@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const partsRoutes = require('./routes/parts.routes');
+const assembliesRoutes = require('./routes/assemblies.routes');
 const { error404, error500 } = require('./middleware/errors.middleware');
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(cors());
 app.use('/api/auth', authRoutes); // http://localhost:3000/api/auth
 app.use('/api/user', userRoutes); // http://localhost:3000/api/user
 app.use('/api/parts', partsRoutes); // http://localhost:3000/api/parts
+app.use('/api/assemblies', assembliesRoutes); // http://localhost:3000/api/assemblies
 
 // Handle 404 requests
 app.use(error404);
