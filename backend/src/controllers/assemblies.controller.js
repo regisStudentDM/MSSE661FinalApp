@@ -43,6 +43,8 @@ exports.insertAssemblyRow = async (req, res) => {
   // verify valid token
   const user = req.user; // {id: 1, iat: wlenfwekl, expiredIn: 9174323 }
 
+  console.log(user);
+
   // take result of middleware check
   if (user.id) {
     // establish connection

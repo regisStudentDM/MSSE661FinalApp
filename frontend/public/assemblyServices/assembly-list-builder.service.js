@@ -22,11 +22,15 @@ class AssemblyListBuilder {
     try {
       const resp = await this.assembliesService.addAssemblyRow(assemblyRowRequestBody);
       
-      if (resp) {
-        if(resp.error){
-          alert(resp.error.msg);
+      if (resp.msg) {
+        if(resp.msg == 'Added assembly successfully!'){
+          this.render();
+          return resp;        
         }
-        this.render();
+        else{
+          alert(resp.msg);
+          return;
+        }
       } else {
         alert('Unable to add assembly row. Please try again later.');
         return;
@@ -71,7 +75,6 @@ class AssemblyListBuilder {
     assemblyNameInput.value = "";
     assemblyPartQuantityInput.value = "";
     assemblyPartNameSelect.selectedIndex = 0;
-
   };
 
   _updatePartsListSelections = async () => {
