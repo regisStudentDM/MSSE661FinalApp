@@ -18,6 +18,62 @@ class AssemblyListBuilder {
     this.render();
   }
 
+  addAssemblyByObjectSpecification = async (assemblyRowRequestBody) => {
+    try {
+      const resp = await this.assembliesService.addAssemblyRow(assemblyRowRequestBody);
+      
+      if (resp) {
+        if(resp.error){
+          alert(resp.error.msg);
+        }
+        this.render();
+      } else {
+        alert('Unable to add assembly row. Please try again later.');
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+      alert('Unable to assembly row. Please try again later.');
+      return;
+    }  
+  }
+
+  _addAssemblyRowByUserFormInputs = async () => {
+    const assemblyNameInput = document.getElementById('formInputAssemblyName');
+    const assembly_name = assemblyNameInput.value;
+
+
+    const assemblyPartNameSelect = document.getElementById('formInputPartName');
+    const assemblyPartNameSelectOptions = assemblyPartNameSelect.options;
+    const assemblyPartNameSelectedIndex = assemblyPartNameSelectOptions.selectedIndex;
+    const assembly_part_name = assemblyPartNameSelectOptions[assemblyPartNameSelectedIndex].text;
+	
+	  const assemblyPartQuantityInput = document.getElementById('formInputPartQuantity');
+    const assembly_part_quantity = assemblyPartQuantityInput.value;
+
+    if (!assembly_name) {
+      alert('Please enter a part name.');
+      return;
+    }
+	
+    if (!assembly_part_name) {
+      alert('Please enter a part unit.');
+      return;
+    }
+
+    if (!assembly_part_quantity) {
+      alert('Please enter a part unit.');
+      return;
+    }
+
+    const resp = await this.addAssemblyByObjectSpecification({ assembly_name, assembly_part_name, assembly_part_quantity});
+
+    assemblyNameInput.value = "";
+    assemblyPartQuantityInput.value = "";
+    assemblyPartNameSelect.selectedIndex = 0;
+
+  };
+
   _updatePartsListSelections = async () => {
     try {
       const parts = await this.partsService.getParts();
@@ -37,7 +93,7 @@ class AssemblyListBuilder {
       }
   
       myNewAssemblyPartsList.selectedIndex = 0;
-      
+
     } catch (error) {
       console.log(error);
     }
