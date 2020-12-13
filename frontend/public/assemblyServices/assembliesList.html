@@ -89,6 +89,7 @@
               id="formAssemblyToEditName"
               class="custom-select mr-sm-2"
               name="current-assembly-name"
+              onchange="doUpdateAssemblyPartsList()"
             >
               <option value="1" selected>Assembly 1</option>
               <option value="2">Assembly 2</option>
@@ -167,11 +168,11 @@
     <div class="container">
       <form>
         <div class="form-row">
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <label style="font-weight: bold; padding-left: 18px;">Assembly Name</label>
           </div>
-          <div class="col-lg-3">
-            <label style="font-weight: bold; padding-left: 38px;">Part Name</label>
+          <div class="col-lg-5">
+            <label style="font-weight: bold; padding-left: 75px;">Part Name</label>
           </div>
           <div class="col-lg-3">
             <label style="font-weight: bold; padding-left: 38px;">Part Quantity</label>
@@ -179,7 +180,7 @@
       </form>
     </div>
 
-    <div id="assemblies">Loading...</div>
+    <div id="assemblyRows">Loading...</div>
 
   </div>
 

@@ -1,11 +1,11 @@
 /**
  * @class AssemblyListBuilder
  *
- * Creates a list of assemblies and updates a list
+ * Creates a list of assemblyRows and updates a list
  */
 
 class AssemblyListBuilder {
-  assemblies = [];
+  assemblyRows = [];
   assembliesService;
 
   constructor(assembliesService) {
@@ -17,16 +17,16 @@ class AssemblyListBuilder {
   }
 
   render = async () => {
-    const assemblies = await this.assembliesService.getAssemblies();
+    const assemblyRows = await this.assembliesService.getAssemblyRows();
   
     try {
-      if (assemblies) {
-        if (assemblies.msg) {
+      if (assemblyRows) {
+        if (assemblyRows.msg) {
           this._renderMsg();
           this._updateAssemblyNameEditSelections();
           return;
         }
-        this.assemblies = assemblies;
+        this.assemblyRows = assemblyRows;
 
         this._renderList();
       } else {
@@ -70,6 +70,7 @@ class AssemblyListBuilder {
     // add list item's details
     listGroupItem.append(assemblyNameSpan);
     listGroupItem.append(assemblyPartNameSpan);
+    listGroupItem.append(assemblyPartQuantitySpan);
 
     return listGroupItem;
   };
@@ -79,14 +80,14 @@ class AssemblyListBuilder {
    */
   _renderList = () => {
     // get the "Loading..." text node from parent element
-    const assembliessDiv = document.getElementById('assemblies');
+    const assembliessDiv = document.getElementById('assemblyRows');
     const loadingDiv = assembliessDiv.childNodes[0];
     const fragment = document.createDocumentFragment();
     const ul = document.createElement('ul');
-    ul.id = 'assemblies-list';
+    ul.id = 'assemblyRows-list';
     ul.className = 'list-group list-group-flush checked-list-box';
 
-    this.assemblies.map((assembly) => {
+    this.assemblyRows.map((assembly) => {
       const listGroupRowItem = this._renderListRowItem(assembly);
 
       // add entire list item
@@ -104,26 +105,62 @@ class AssemblyListBuilder {
       option.remove();
     }
 
-    var myList = document.getElementById("formAssemblyToEditName");
-    var o;
-
-    for (let index = 0; index < this.assemblies.length; index++) {
-      o = document.createElement("option");
-      o.value = this.assemblies[index].assembly_name;
-      o.text = this.assemblies[index].assembly_name;
-      myList.appendChild(o);
+    let uniqueAssemblyList = [];
+    for (let index = 0; index < this.assemblyRows.length; index++) {
+      if (!uniqueAssemblyList.includes(this.assemblyRows[index].assembly_name)) {
+        uniqueAssemblyList.push(this.assemblyRows[index].assembly_name);
+      }
     }
 
-    myList.selectedIndex = 0;
+    var myAssemblyList = document.getElementById("formAssemblyToEditName");
+    var o;
+
+    for (let index = 0; index < uniqueAssemblyList.length; index++) {
+      o = document.createElement("option");
+      o.value = uniqueAssemblyList[index];
+      o.text = uniqueAssemblyList[index];
+      myAssemblyList.appendChild(o);
+    }
+
+    myAssemblyList.selectedIndex = 0;
+    this._updateAssemblyPartNameEditSelections();
+  }
+
+  _updateAssemblyPartNameEditSelections = () => {
+    var assemblyUniqueList = document.getElementById("formAssemblyToEditName");
+    var assemblyName = assemblyUniqueList[assemblyUniqueList.selectedIndex].text;
+    
+    for (const option of [...document.querySelector('#formAssemblyPartName').options]) {
+      option.remove();
+    }
+
+    let assemblyPartList = [];
+    for (let index = 0; index < this.assemblyRows.length; index++) {
+      if (this.assemblyRows[index].assembly_name == assemblyName) {
+        assemblyPartList.push(this.assemblyRows[index].assembly_part_name);
+      }
+    }
+    
+    var myAssemblyPartNameList = document.getElementById("formAssemblyPartName");
+    var o;
+
+    for (let index = 0; index < assemblyPartList.length; index++) {
+      o = document.createElement("option");
+      o.value = assemblyPartList[index];
+      o.text = assemblyPartList[index];
+      myAssemblyPartNameList.appendChild(o);
+    }
+
+    myAssemblyPartNameList.selectedIndex = 0;
   }
 
   /**
    * DOM renderer for displaying a default message when a user has an empty list.
    */
   _renderMsg = () => {
-    const assembliesDiv = document.getElementById('assemblies');
+    const assembliesDiv = document.getElementById('assemblyRows');
     const loadingDiv = assembliesDiv.childNodes[0];
-    const listParent = document.getElementById('assemblies-list');
+    const listParent = document.getElementById('assemblyRows-list');
     const msgDiv = this._createMsgElement('Create some new assemblies!');
 
     if (assembliesDiv) {

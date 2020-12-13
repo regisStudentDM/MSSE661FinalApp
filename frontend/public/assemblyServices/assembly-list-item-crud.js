@@ -11,3 +11,7 @@ const doDeleteAssemblyRow = async (e) => {
   partListBuilder._deletePartByUserFormInputs();
  */
 };
+
+const doUpdateAssemblyPartsList = async () => {
+  assemblyListBuilder._updateAssemblyPartNameEditSelections();
+};
