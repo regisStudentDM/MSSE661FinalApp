@@ -12,7 +12,7 @@ const {
 
 
 describe('Assemblies API Service', function () {
-  it.skip('should GET all assemblies for given user id', function (done) {
+  it.skip('should GET all assembly rows for given user id', function (done) {
     
     request_user_id = 1;
 

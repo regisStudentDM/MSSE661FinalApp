@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-  getAllAssemblies,
+  getAllAssemblyRows,
   insertAssemblyRow,
   deleteAssemblyRowByUserIDAssemblyNameAssemblyPartName,
 } = require('../controllers/assemblies.controller');
@@ -16,7 +16,7 @@ const assembliesRoutes = express.Router();
 /**
  * Routes for all assemblies. Evaluates to `/assemblies/`.
  */
-assembliesRoutes.get('/', canAccess, getAllAssemblies);
+assembliesRoutes.get('/', canAccess, getAllAssemblyRows);
 
 assembliesRoutes.post('/', canAccess, insertAssemblyRow);
 

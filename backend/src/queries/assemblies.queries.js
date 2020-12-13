@@ -14,7 +14,7 @@ exports.CREATE_ASSEMBLIES_TABLE = `CREATE TABLE IF NOT EXISTS assemblies(
     UNIQUE KEY (user_id, assembly_name, assembly_part_name)
   )`;
   
-  exports.GET_ALL_ASSEMBLIES = (userId) => `SELECT * FROM assemblies WHERE user_id = ${userId}`;
+  exports.GET_ALL_ASSEMBLY_ROWS = (userId) => `SELECT * FROM assemblies WHERE user_id = ${userId}`;
 
 /*   exports.GET_ASSEMBLY_ROW_ID_BY_USER_ID_ASSEMBLY_NAME_AND_ASSEMBLY_PART_NAME = (userId, assemblyName, assemblyPartName) =>
   `SELECT assembly_row_id FROM assemblies WHERE user_id = ${userId} AND assembly_name = ${assemblyName} AND assembly_part_name = ${assemblyPartName}`;

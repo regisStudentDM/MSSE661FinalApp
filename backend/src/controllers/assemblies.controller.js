@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const connection = require('../db-config');
 const {
-  GET_ALL_ASSEMBLIES,
+  GET_ALL_ASSEMBLY_ROWS,
   INSERT_ASSEMBLY_ROW,
   DELETE_ASSEMBLY_ROW_BY_USER_ID_ASSEMBLY_NAME_AND_ASSEMBLY_PART_NAME,
 } = require('../queries/assemblies.queries');
@@ -17,23 +17,23 @@ const { serverError } = require('../utils/handlers');
  */
 
 // http://localhost:3000/assemblies
-exports.getAllAssemblies = async (req, res) => {
+exports.getAllAssemblyRows = async (req, res) => {
     
   const con = await connection().catch((err) => {
     throw err;
   });
 
-  const assemblies = await query(con, GET_ALL_ASSEMBLIES(req.user.id)).catch(
+  const assemblyRows = await query(con, GET_ALL_ASSEMBLY_ROWS(req.user.id)).catch(
     serverError(res)
   );
 
   // [] === true, 0 === false
-  if (!assemblies.length) {
+  if (!assemblyRows.length) {
     res.status(200).json({ msg: 'No assemblies available for this user.' });
     return;
   }
   else{
-    res.json(assemblies);
+    res.json(assemblyRows);
     return;
   }
 };
